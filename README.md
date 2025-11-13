@@ -28,7 +28,6 @@ steganography/
 ├── 5-Recog/        # 經辨識後的地雷圖像 (Mine_xxx_Mark_Rec_###.png)
 ├── 6-Extra/        # 取出之秘密訊息 (MineX_Extra_Char_###.txt)
 ├── 7-Entro/        # 熵分析結果 (Entropy-W-H-M-G.txt)
-├── 8-Analy/        # 分析報告 (Results.docx)
 └── main.py         # 主控制程式，整合嵌密與取密流程
 ```
 
@@ -84,7 +83,6 @@ MineX_Extra_Char_###.txt
 
 ```
 7-Entro/Entropy-Results.txt
-8-Analy/Results.docx
 ```
 
 ---
@@ -100,13 +98,11 @@ python analyze_entropy.py     # 統計與報告
 
 ---
 
-## 📊 範例結果
+## 範例結果
 
 | 原始地雷圖                        | 含密地雷圖                        | 取出結果                               |
 | ---------------------------- | ---------------------------- | ---------------------------------- |
 | ![](./examples/original.png) | ![](./examples/embedded.png) | ![](./examples/extracted_text.png) |
-
-> 📘 若取出訊息與原始 Secret_Char.txt 不符，請檢查 ASCII 編碼或索引位移設定。
 
 ---
 
