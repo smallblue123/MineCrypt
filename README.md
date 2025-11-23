@@ -13,7 +13,7 @@ MineCrypt 是一個基於地雷隨機分布與熵計算的隱寫系統。透過�
 * **Entropy 分析**：統計地雷分布資訊熵作為隨機性衡量。
 * **秘密訊息嵌入 (Embedding)**：將位元資料映射至地雷板中。
 * **秘密訊息擷取 (Extraction)**：由標記影像中取回原始資料。
-* **辨識與分析 (Recognition & Report)**：驗證取密正確率與熵差異。
+* **辨識與分析 (Recognition & Report)**：驗證取密正確性與熵差異。
 
 ---
 
@@ -79,7 +79,7 @@ MineX_Extra_Char_###.txt
 
 ### 5️⃣ 分析與報告 (Analysis)
 
-輸出每關熵值統計及嵌密成功率，生成：
+輸出每關熵值統計，生成：
 
 ```
 7-Entro/Entropy-Results.txt
