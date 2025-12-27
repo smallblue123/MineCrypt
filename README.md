@@ -87,19 +87,17 @@ $$
 
 系統將生成的盤面封裝為遊戲，發送給接收端。接收者如同一般玩家進行踩地雷，通關後即可獲得完整的地雷分佈圖（即密文載體）。
 
-- [Game_Screenshot.jpg](./2-Gaming/Game_Screenshot.jpg)
+- [Mine_9_9_10_001.png](./3-Marke/Mine1_9_9_10_001.png)
 
 ### 3️⃣ 標記與儲存 (Marking)
 
 當遊戲結束且地雷位置揭曉後，系統將盤面轉換為標記影像檔：
 
-- [Mine_9_9_10_Mark_001.png](./Mine_9_9_10_Mark_001.png)
+- [Mine_9_9_10_Mark_001.png](./5-Recog/Mine1_9_9_10_Mark_Rec_001.png)
 
 ### 4️⃣ 訊息擷取 (Extraction)
 
 接收端系統讀取標記影像，逆向解析地雷座標並還原原始訊息：
-
-- [MineX_Extra_Char_001.txt](./5-Recog/MineX_Extra_Char_001.txt)
 
 ### 5️⃣ 分析與熵值驗證 (Analysis & Entropy)
 
@@ -114,7 +112,7 @@ $$
 
 此步驟用於確認嵌入訊息後的盤面與隨機生成的盤面在統計特性上無顯著差異。
 
-- [Entropy-Results.txt](./7-Entro/Entropy-Results.txt)
+- [Entropy-Results.txt](./7-Entro/Entropy-16-16-040-10.txt)
 
 ---
 
