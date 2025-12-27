@@ -28,7 +28,7 @@ steganography/
 ├── 5-Recog/        # 經辨識後的地雷圖像 (Mine_xxx_Mark_Rec_###.png)
 ├── 6-Extra/        # 取出之秘密訊息 (MineX_Extra_Char_###.txt)
 ├── 7-Entro/        # 熵分析結果 (Entropy-W-H-M-G.txt)
-└── main.py         # 主控制程式，整合嵌密與取密流程
+└── runner.py       # 主控制程式，整合踩地雷遊戲與嵌密取密流程
 ```
 
 ---
@@ -49,16 +49,48 @@ $$
 
 ### 2️⃣ 秘密訊息嵌入 (Embedding)
 
-從 `1-Secre/` 讀取訊息，依地雷分布將資料位元嵌入。
+本模組負責讀取 `1-Secre/` 目錄下的訊息，並利用數學編碼將其嵌入至踩地雷的地圖分佈中。
 
-| Level        | Size (n, k) | 可嵌入位元 | 每次讀入字元 |
-| ------------ | ----------- | ----- | ------ |
-| Beginner     | (81, 10)    | 40    | 5      |
-| Intermediate | (256, 40)   | 156   | 19     |
-| Expert       | (480, 99)   | 347   | 43     |
-| Custom-1     | (720, 120)  | 463   | 57     |
-| Custom-2     | (720, 360)  | 714   | 89     |
+### 難度與容量規格 (Capacity Specification)
 
+系統利用地雷的**排列組合 (Combinations)** 來儲存資訊。隨著地雷數量與地圖大小的增加，排列的可能性呈指數級成長，從而獲得極高的嵌密量。
+
+| Level | Size (n, k)<br><sub>(Cells, Mines)</sub> | Capacity (Bits) | Char Limit<br><sub>(Approx.)</sub> | Note |
+| :--- | :--- | :--- | :--- | :--- |
+| **Beginner** | (81, 10) | 40 | 5 | 9x9 Grid |
+| **Intermediate** | (256, 40) | 156 | 19 | 16x16 Grid |
+| **Expert** | (480, 99) | 347 | 43 | 16x30 Grid |
+| **Custom-1** | (720, 120) | 463 | 57 | 24x30 Grid |
+| **Custom-2** | (720, 360) | **714** | **89** | 24x30 Grid |
+
+---
+
+### 數學原理：組合數字系統 (Combinadics)
+
+我們採用 **組合數字系統 (Combinatorial Number System)** 作為編碼核心。此數學系統建立在自然數與組合之間的一一對應關係（Bijection）。
+
+#### 核心公式
+任何一個非負整數 $X$（代表訊息），在固定 $k$ 個地雷的情況下，可以**唯一分解**為 $k$ 個二項式係數的和：
+
+$$
+X = \binom{c_k}{k} + \binom{c_{k-1}}{k-1} + \dots + \binom{c_1}{1}
+$$
+
+其中 $c_k > c_{k-1} > \dots > c_1 \ge 0$ 即為地雷在地圖上的位置索引。
+
+#### 唯一性定理 (Uniqueness Property)
+組合數字系統最強大的特性在於其**唯一性**：
+對於任何範圍在 $0 \le X < \binom{n}{k}$ 的整數 $X$，**恰好存在一組**嚴格遞減的整數序列 $\{c_k, \dots, c_1\}$ 滿足上述公式。
+
+這意味著：
+1.  **無歧義性**：每一則不同的訊息，都會產生一種截然不同的地雷分佈圖。
+2.  **無碰撞**：不同的地雷分佈圖，解碼後絕對不會得到相同的數值。
+3.  **全覆蓋**：所有可能的 $k$ 顆地雷排列方式，都能被映射到一個連續的整數區間中，沒有浪費的空間。
+
+### 處理流程
+1.  **Serialization**: 將輸入訊息轉換為大整數 $X$。
+2.  **Mapping**: 利用組合數字系統的唯一性定理，解出對應的 $k$ 個地雷索引 $c_i$。
+3.  **Layout**: 將一維索引映射至二維地圖座標，完成嵌入。
 ---
 
 ### 3️⃣ 標記與儲存 (Marking)
@@ -90,10 +122,9 @@ MineX_Extra_Char_###.txt
 ## 執行方式
 
 ```bash
-python mine-entropy.py        # 熵分析
-python embed_secret.py        # 嵌入訊息
-python extract_secret.py      # 取出訊息
-python analyze_entropy.py     # 統計與報告
+python mine-entropy.py      # 熵分析
+python runner.py            # 執行踩地雷遊戲並嵌入訊息
+python auto_extract.py      # 取出訊息
 ```
 
 ---
@@ -103,6 +134,5 @@ python analyze_entropy.py     # 統計與報告
 * 結合遊戲機制與資訊隱寫術。
 * 以地雷熵衡量版面隨機性與資訊容量。
 * 完整自動化嵌密與取密流程。
-* 可視化輸出影像與報告。
 
 ---
